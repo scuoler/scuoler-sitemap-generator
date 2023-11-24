@@ -2,7 +2,6 @@ const pg = require("pg");
 const cron = require("node-cron");
 
 const configuration = require("../Configuration");
-const utils = require("../utils/Utils");
 const constants = require("../Constants");
 const fs = require("fs");
 
