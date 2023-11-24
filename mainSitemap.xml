@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <url>
+        <loc>https://scuoler.com/problemsBrowse</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/problemsSearch</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/quizesBrowse</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/quizesSearch</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/coursesBrowse</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/coursesSearch</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/userInsert</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/usersSearch</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/userTraining</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/aboutUs</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/team</loc>
+   </url>
+    <url>
+        <loc>https://scuoler.com/contactUs</loc>
+   </url>     
+</urlset>

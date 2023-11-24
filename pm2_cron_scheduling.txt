@@ -1,0 +1,1 @@
+pm2 start src/index.js --no-autorestart --name "scuoler sitemap generator" --cron "5 0 * * *"
