@@ -39,7 +39,21 @@ At Scuoler, we are thoroughly passionate about innovative ideas and their implem
 
 ## Deployed Application
 
-https://scuoler.com/scheduler
+https://scuoler.com/
+
+## Build and Launch
+
+Instructions on how to build and launch the App from git sources is provided at [https://scuoler.com/buildLaunch](https://scuoler.com/buildLaunch)
+
+## Sitemaps
+
+https://scuoler.com/coursesBrowse
+
+https://scuoler.com/problemsBrowse
+
+https://scuoler.com/mainSitemap.xml
+
+https://scuoler.com/courseSitemap.xml
 
 ## MIT License
 
