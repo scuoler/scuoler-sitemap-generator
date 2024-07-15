@@ -12,4 +12,13 @@
   <sitemap>
     <loc>https://scuoler.com/problemSitemap.xml</loc>
   </sitemap>
+  <sitemap>
+    <loc>https://scuoler.com/moduleSitemap.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://scuoler.com/lessonSitemap.xml</loc>
+  </sitemap>
+  <sitemap>
+    <loc>https://scuoler.com/pageSitemap.xml</loc>
+  </sitemap>
 </sitemapindex>
