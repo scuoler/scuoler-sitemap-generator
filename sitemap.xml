@@ -4,6 +4,9 @@
     <loc>https://scuoler.com/mainSitemap.xml</loc>
   </sitemap>
   <sitemap>
+    <loc>https://scuoler.com/userSitemap.xml</loc>
+  </sitemap>
+  <sitemap>
     <loc>https://scuoler.com/courseSitemap.xml</loc>
   </sitemap>
   <sitemap>
