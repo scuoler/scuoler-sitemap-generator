@@ -129,6 +129,38 @@ const generateProblemSitemap = (filePath: string) => {
     });
 };
 
+const generateUserSitemap = (filePath: string) => {
+    const pool: Pool = getPool();
+
+    let sql: string = ` select id from public.Customer where sitemap=true and deleted=false`;
+
+    pool.query(sql, [], function (err: Error, result: QueryResult<any>) {
+        pool.end(() => { });
+        if (err) {
+            console.log(err);
+        } else {
+            const userStream = fs.createWriteStream(filePath);
+            const endOfLine: string = require("os").EOL;
+            writeHeader(userStream, endOfLine);
+            for (let i: number = 0; i < result.rows.length; i++) {
+                let id: number = result.rows[i].id;
+                let rowUrl: string = `https://${constants.LETSENCRYPT_DOMAIN_NAME}/userShowSelected/${id}`;
+                let ele: string =
+                    ` <url>` +
+                    endOfLine +
+                    `  <loc>${rowUrl}</loc>` +
+                    endOfLine +
+                    ` </url>` +
+                    endOfLine;
+                //console.log(rowUrl);
+                userStream.write(ele);
+            }
+            writeFooter(userStream);
+            userStream.close();
+        }
+    });
+};
+
 
 const generateModuleSitemap = (filePath: string) => {
     const pool: Pool = getPool();
@@ -227,6 +259,7 @@ const generatePageSitemap = (filePath: string) => {
 };
 
 const main = () => {
+    generateUserSitemap(constants.USER_SITEMAP_FILE_PATH);
     generateCourseSitemap(constants.COURSE_SITEMAP_FILE_PATH);
     generateQuizSitemap(constants.QUIZ_SITEMAP_FILE_PATH);
     generateProblemSitemap(constants.PROBLEM_SITEMAP_FILE_PATH);

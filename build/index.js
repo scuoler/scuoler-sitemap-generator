@@ -113,6 +113,35 @@ const generateProblemSitemap = (filePath) => {
         }
     });
 };
+const generateUserSitemap = (filePath) => {
+    const pool = getPool();
+    let sql = ` select id from public.Customer where sitemap=true and deleted=false`;
+    pool.query(sql, [], function (err, result) {
+        pool.end(() => { });
+        if (err) {
+            console.log(err);
+        }
+        else {
+            const userStream = fs.createWriteStream(filePath);
+            const endOfLine = require("os").EOL;
+            writeHeader(userStream, endOfLine);
+            for (let i = 0; i < result.rows.length; i++) {
+                let id = result.rows[i].id;
+                let rowUrl = `https://${constants.LETSENCRYPT_DOMAIN_NAME}/userShowSelected/${id}`;
+                let ele = ` <url>` +
+                    endOfLine +
+                    `  <loc>${rowUrl}</loc>` +
+                    endOfLine +
+                    ` </url>` +
+                    endOfLine;
+                //console.log(rowUrl);
+                userStream.write(ele);
+            }
+            writeFooter(userStream);
+            userStream.close();
+        }
+    });
+};
 const generateModuleSitemap = (filePath) => {
     const pool = getPool();
     let sql = `select path_url from public.modules_for_sitemap_get_all()`;
@@ -201,12 +230,13 @@ const generatePageSitemap = (filePath) => {
     });
 };
 const main = () => {
+    generateUserSitemap(constants.USER_SITEMAP_FILE_PATH);
     /*generateCourseSitemap(constants.COURSE_SITEMAP_FILE_PATH);
     generateQuizSitemap(constants.QUIZ_SITEMAP_FILE_PATH);
     generateProblemSitemap(constants.PROBLEM_SITEMAP_FILE_PATH);
     generateModuleSitemap(constants.MODULE_SITEMAP_FILE_PATH);
-    generateLessonSitemap(constants.LESSON_SITEMAP_FILE_PATH);*/
-    generatePageSitemap(constants.PAGE_SITEMAP_FILE_PATH);
+    generateLessonSitemap(constants.LESSON_SITEMAP_FILE_PATH);
+    generatePageSitemap(constants.PAGE_SITEMAP_FILE_PATH);*/
 };
 //cron.schedule("*/5 * * * *", main);
 main();
