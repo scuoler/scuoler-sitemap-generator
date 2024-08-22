@@ -53,6 +53,16 @@ https://scuoler.com/mainSitemap.xml
 
 https://scuoler.com/courseSitemap.xml
 
+https://scuoler.com/quizSitemap.xml
+
+https://scuoler.com/problemSitemap.xml
+
+https://scuoler.com/moduleSitemap.xml
+
+https://scuoler.com/lessonSitemap.xml
+
+https://scuoler.com/pageSitemap.xml
+
 ## MIT License
 
 &copy;2024 Mathew Joseph

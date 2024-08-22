@@ -19,6 +19,12 @@
         <loc>https://scuoler.com/coursesSearch</loc>
     </url>
     <url>
+        <loc>https://scuoler.com/codeSnippetsBrowse</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/codeSnippetsSearch</loc>
+    </url>
+    <url>
         <loc>https://scuoler.com/userInsert</loc>
     </url>
     <url>
@@ -26,6 +32,12 @@
     </url>
     <url>
         <loc>https://scuoler.com/userTraining</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/eventsBrowse</loc>
+    </url>
+    <url>
+        <loc>https://scuoler.com/scheduler</loc>
     </url>
     <url>
         <loc>https://scuoler.com/aboutUs</loc>
@@ -44,5 +56,11 @@
    </url>
    <url>
         <loc>https://scuoler.com/termsConditions</loc>
+   </url>     
+   <url>
+        <loc>https://scuoler.com/donate</loc>
+   </url>     
+   <url>
+        <loc>https://scuoler.com/dataDeletionInstructions</loc>
    </url>     
 </urlset>
