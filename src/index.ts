@@ -1,9 +1,11 @@
 import { Pool, QueryResult } from "pg";
+import { Stream } from "stream";
 
 const pg = require("pg");
 const configuration = require("../Configuration");
 const constants = require("../Constants");
 const fs = require("fs");
+require("dotenv").config();
 
 
 const getPool: () => Pool = () => {
@@ -97,12 +99,85 @@ const generateQuizSitemap = (filePath: string) => {
     });
 };
 
+const writeProblemQueryResultToStream = (problemStream: any, result: QueryResult<any>, endOfLine: string) => {
+    for (let i: number = 0; i < result.rows.length; i++) {
+        let id: number = result.rows[i].id;
+        let rowUrl: string = `https://${constants.LETSENCRYPT_DOMAIN_NAME}/problemShowSelected/${id}`;
+        let ele: string =
+            ` <url>` +
+            endOfLine +
+            `  <loc>${rowUrl}</loc>` +
+            endOfLine +
+            ` </url>` +
+            endOfLine;
+        //console.log(rowUrl);
+        problemStream.write(ele);
+    }
+
+}
+
+const generateProblemSitemapOld = (filePath: string) => {
+    let pool: Pool = getPool();
+
+    /* sitemap files are restricted to have 50000 entries, we are 
+    hence limiting to 40000 */
+    let sql1: string =
+        `  select id from public.problem 
+          where sitemap=true and create_timestamp < $1 
+          order by id 
+          limit $2 `;
+
+
+    pool.query(sql1, [constants.PROBLEM_SITEMAP_CUTOFF_DATE, constants.SITEMAP_FILE_MAX_LENGTH], function (err: Error, result: QueryResult<any>) {
+        pool.end(() => { });
+        if (err) {
+            console.log(err);
+        } else {
+            const sitemapFileNameNoExt = filePath.substring(0, filePath.indexOf(".xml"));
+            const filePath1 = sitemapFileNameNoExt + "Old1.xml"
+            const problemStream = fs.createWriteStream(filePath1);
+            const endOfLine: string = require("os").EOL;
+            writeHeader(problemStream, endOfLine);
+            writeProblemQueryResultToStream(problemStream, result, endOfLine);
+            writeFooter(problemStream);
+            problemStream.close();
+        }
+    });
+
+    pool = getPool();
+
+    /* Note the additional offset at the end */
+    let sql2: string =
+        `  select id from public.problem 
+            where sitemap=true and create_timestamp < $1 
+            order by id 
+            limit $2 
+            offset $3 `;
+
+    pool.query(sql2, [constants.PROBLEM_SITEMAP_CUTOFF_DATE, constants.SITEMAP_FILE_MAX_LENGTH, constants.SITEMAP_FILE_MAX_LENGTH], function (err: Error, result: QueryResult<any>) {
+        pool.end(() => { });
+        if (err) {
+            console.log(err);
+        } else {
+            const sitemapFileNameNoExt = filePath.substring(0, filePath.indexOf(".xml"));
+            const filePath2 = sitemapFileNameNoExt + "Old2.xml"
+            const problemStream = fs.createWriteStream(filePath2);
+            const endOfLine: string = require("os").EOL;
+            writeHeader(problemStream, endOfLine);
+            writeProblemQueryResultToStream(problemStream, result, endOfLine);
+            writeFooter(problemStream);
+            problemStream.close();
+        }
+    });
+}
+
+
 const generateProblemSitemap = (filePath: string) => {
     const pool: Pool = getPool();
 
-    let sql: string = `  select id from public.problem where sitemap=true`;
+    let sql: string = `  select id from public.problem where sitemap=true and create_timestamp >= $1 `;
 
-    pool.query(sql, [], function (err: Error, result: QueryResult<any>) {
+    pool.query(sql, [constants.PROBLEM_SITEMAP_CUTOFF_DATE], function (err: Error, result: QueryResult<any>) {
         pool.end(() => { });
         if (err) {
             console.log(err);
@@ -262,10 +337,14 @@ const main = () => {
     generateUserSitemap(constants.USER_SITEMAP_FILE_PATH);
     generateCourseSitemap(constants.COURSE_SITEMAP_FILE_PATH);
     generateQuizSitemap(constants.QUIZ_SITEMAP_FILE_PATH);
-    generateProblemSitemap(constants.PROBLEM_SITEMAP_FILE_PATH);
     generateModuleSitemap(constants.MODULE_SITEMAP_FILE_PATH);
     generateLessonSitemap(constants.LESSON_SITEMAP_FILE_PATH);
     generatePageSitemap(constants.PAGE_SITEMAP_FILE_PATH);
+    generateProblemSitemap(constants.PROBLEM_SITEMAP_FILE_PATH);
+    if (process.env.PROBLEM_SITEMAP_OLD === "true") {
+        generateProblemSitemapOld(constants.PROBLEM_SITEMAP_FILE_PATH)
+    }
+
 };
 
 //cron.schedule("*/5 * * * *", main);

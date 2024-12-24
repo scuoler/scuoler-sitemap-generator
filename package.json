@@ -12,6 +12,7 @@
   "author": "mathew",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "libpq": "^1.8.12",
     "node-cron": "^3.0.2",
     "pg": "^8.11.3"

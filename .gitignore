@@ -1,4 +1,5 @@
 #put files to ignore
+.env
 node_modules/
 build/
 Configuration.js
